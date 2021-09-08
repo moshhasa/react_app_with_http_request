@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect, useCallback } from "react";
 import MoviesList from "./components/MoviesList";
 import "./App.css";
 
@@ -7,7 +7,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchMovieHandler = async () => {
+  const fetchMovieHandler = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -31,7 +31,11 @@ function App() {
     }
 
     setLoading(false);
-  };
+  }, [])
+
+  useEffect(() => {
+    fetchMovieHandler()
+  }, [fetchMovieHandler])
 
   let content = <p>Found no movies</p>;
   if (movies.length > 0) {
